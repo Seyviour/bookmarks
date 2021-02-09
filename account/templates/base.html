@@ -13,12 +13,12 @@
         {% if request.user.is_authenticated %}
         <ul class="menu">
             <li {% if section == 'dashboard' %}class="selected"{% endif %}> 
-                <a href="{% url 'dashboard' %}"> My Dashboard</a></li>
+                <a href="{% url 'dashboard' %}">My Dashboard</a></li>
             
             <li {% if section == 'images' %} class="selected" {% endif%}>
-                <a href="{# url 'images' #}"></a></li>
+                <a href="{% url 'images:list' %}">Images</a></li>
             <li {% if section == 'people' %} class="selected" {% endif%}>
-                <a href="{# url 'people' #}"></a></li>
+                <a href="{# url 'people' #}">People</a></li>
             
         </ul>
         {% endif %}
@@ -48,5 +48,30 @@
         {% block content %}
         {% endblock %}
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
+    <script>
+        //console.log('here')
+        var csrftoken = Cookies.get('csrftoken');
+        console.log(typeof Cookies) 
+        function csrfSafeMethod(method){
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        console.log(csrfSafeMethod('GET'))
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings){
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain){
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    console.log('ajaxSetupDone')
+                }
+            }
+        });
+        $(document).ready(function(){
+            console.log('in ready function')
+            {% block domready %}
+            
+            {% endblock %}
+        });
+    </script>    
 </body>
 </html>

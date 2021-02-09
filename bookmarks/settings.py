@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'social_django',
     'images.apps.ImagesConfig',
-    'django_extensions', 
+    'django_extensions',
+    'easy_thumbnails' 
     
 ]
 
@@ -141,3 +142,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 ## Media-File Configuration
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+#SECURE_SSL_REDIRECT = True
+
+
+THUMBNAIL_DEBUG = True
