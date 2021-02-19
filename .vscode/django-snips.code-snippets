@@ -19,12 +19,12 @@
 
 {
 	"Django Command": {
-		"prefix": ["djc", ],
+		"prefix": ["djc","code" ],
 		"body": ["{% ${1} %}$0"]
 	},
 
 	"Django Data": {
-		"prefix": ["djd", ],
+		"prefix": ["djd", "data" ],
 		"body": ["{{ ${1} }}$0"]
 	},
 
@@ -44,7 +44,7 @@
 	},
 
 	"Django If": {
-		"prefix": ["djif", ], 
+		"prefix": ["djif", "if" ], 
 		"body": ["{% if ${1} %}\n\t${2} \n{% endif %}"]
 	},
 

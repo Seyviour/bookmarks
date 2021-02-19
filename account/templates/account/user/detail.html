@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+{% block title %}
+    {{ user.username }} 
+{% endblock %}
+
+{% block content %}
+    <h1>{{ user.get_full_name }}</h1> 
+    <div class="profile-info">
+        <img src="{% thumbnail user.profile.photo 180x180 %}" class='user-detail'>
+    </div>
+
+    {% with total_followers=user.followers.count %}
+        <span class="count">
+            <span class="total">{{ total_followers }}</span>
+            follower{{ total_followers|pluralize }}
+        </span>
+
+        {{ user.id|pprint }}
+        <a href="#" class='follow button' data-id="{{ user.id }}"
+         data-action="{% if request.user in user.followers.all %}un{% endif  %}follow">
+
+            {% if request.user == user %}
+                Edit Profile
+            {% elif request.user in user.followers.all %}
+                Unfollow
+            {% elif request.user not in user.followers.all %}
+                Follow
+            {% endif %}
+        </a>
+
+        <div id="image-list" class="image-container">
+            {% include "images/image/ajax_list.html" with images=user.image_created.all   %}
+        </div>
+         
+    {% endwith %}
+{% endblock %}
+
+{% block domready %}
+   
+        $('a.follow').click(function(e){
+            e.preventDefault();
+            var action = $(this).data('action');
+            var id = $(this).data('id');
+            console.log(id);
+            var count = parseInt($('span.count .total').text());
+            console.log(action) ;
+            $.post('{% url "user_follow" %}',
+                    {
+                        'id': id,
+                        'action': action
+                    },
+                    function(data){
+                        if (data['status']=='ok'){
+                            if (action == 'follow'){    
+                                count += 1;
+                                action = 'unfollow'
+                            } 
+                            else if (action == 'unfollow'){
+                                count -= 1;
+                                action = 'follow'
+                            }
+                            $('span.count .total').text(String(count))
+                            $('a.follow.button').data('action', action)
+                            $('a.follow.button').text(action);
+                        }
+                    }); 
+        });
+{% endblock %}

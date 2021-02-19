@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+
+{% block title %}
+    Most Viewed Images 
+{% endblock %}  
+
+{% block content %}
+    <div id='image-list'>
+        <ol>
+            {% for image in most_viewed %}
+            <li>
+                 <a href="{{image.get_absolute_url}}">
+                    <img src="{% thumbnail image.image 180x180 crop='smart'  %}" alt="">
+                    {{ image.title }}
+                     
+                 </a>
+            </li>
+            {% endfor %}
+        </ol>
+    </div> 
+{% endblock %}

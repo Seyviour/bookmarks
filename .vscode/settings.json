@@ -1,3 +1,5 @@
 {
-    "python.pythonPath": "/home/saviour/theweb/python-venvs/bookmarks/bin/python3"
+    "python.pythonPath": "/home/saviour/theweb/python-venvs/bookmarks/bin/python3",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
 }

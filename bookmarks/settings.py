@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
+from django.urls import reverse_lazy
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -47,8 +49,8 @@ INSTALLED_APPS = [
     'social_django',
     'images.apps.ImagesConfig',
     'django_extensions',
-    'easy_thumbnails' 
-    
+    'easy_thumbnails',
+    'actions.apps.ActionsConfig', 
 ]
 
 MIDDLEWARE = [
@@ -147,3 +149,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 
 THUMBNAIL_DEBUG = True
+
+ABSOLUTE_URL_OVERRIDES = {
+    'auth.user': lambda u: reverse_lazy('user_detail', args=[u.username])
+}
+
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+REDIS_DB = 0
